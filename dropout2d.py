@@ -70,4 +70,4 @@ if __name__ == "__main__":
 
     # Correctness Check
     assert torch.equal(out_tl, out_torch)
-    logging.info("Success")
+    logging.info("✅ Success")
