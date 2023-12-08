@@ -40,7 +40,7 @@ def dropout(x: torch.Tensor, x_keep: torch.Tensor, p: float):
     output = torch.empty_like(x)
     assert x.is_contiguous()
     M, N = x.shape
-    grid = (M, ) # Parallelizing across rows
+    grid = lambda meta: (triton.cdiv(M, meta['BLOCK_SIZE']), )
 
     dropout_kernel[grid](x,
                          x_keep,
