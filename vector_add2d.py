@@ -40,8 +40,7 @@ def add(x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
     assert x.is_cuda and y.is_cuda and output.is_cuda and x.shape == y.shape
     M, N = x.shape
 
-    BLOCK_SIZE = 16
-    grid = (M, ) # Parallelizing across rows.
+    grid = lambda meta: (triton.cdiv(M, meta['BLOCK_SIZE']), )
 
     add_kernel[grid](x,
                      y,
